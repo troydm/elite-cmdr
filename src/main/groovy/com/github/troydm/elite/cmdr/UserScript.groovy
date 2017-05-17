@@ -1,6 +1,9 @@
 package com.github.troydm.elite.cmdr
 
 import com.github.troydm.elite.cmdr.action.KeyPressAction
+import com.github.troydm.elite.cmdr.action.SoundAction
+import com.github.troydm.elite.cmdr.action.SequentialAction
+import com.github.troydm.elite.cmdr.action.ParallelAction
 import com.github.troydm.elite.cmdr.event.Event
 import com.github.troydm.elite.cmdr.event.SpeechEvent
 import com.github.troydm.elite.cmdr.event.SpeechContainsEvent
@@ -30,6 +33,18 @@ abstract class UserScript extends Script {
         SpeechContainsEvent speech = new SpeechContainsEvent()
         speech.command = command
         return speech
+    }
+
+    def par(Runnable... actions){
+        return new ParallelAction(Arrays.asList(actions))
+    }
+
+    def seq(Runnable... actions){
+        return new SequentialAction(Arrays.asList(actions))
+    }
+
+    def play(String filePath, double volume=1.0){
+        return new SoundAction(filePath,volume)
     }
 
     def press(String key, long delay=0){
